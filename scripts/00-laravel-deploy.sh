@@ -5,7 +5,8 @@ composer install --no-dev --working-dir=/var/www/html
 echo "Running migrations..."
 php artisan migrate --force
 echo "Running seeds..."
-php artisan db:seed AdminUser
+php artisan db:seed AdminUser --force
+php artisan db:seed UserSeed --force
 
 #echo "Running seeders..."
 #php artisan db:seed
