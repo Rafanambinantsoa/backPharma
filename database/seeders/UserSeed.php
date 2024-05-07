@@ -20,11 +20,11 @@ class UserSeed extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             User::create([
-                'firstname' => $faker->firstName(),
-                'lastname' => $faker->lastName(),
-                'email' => $faker->email,
-                'phone' => $faker->phoneNumber,
-                'badgeToken' => $faker->uuid,
+                'firstname' => 'firstname ' . $i,
+                'lastname' => 'lastname ' . $i,
+                'email' => 'email' . $i . '@gmail.com',
+                'phone' => '123456789',
+                'badgeToken' => 'badgeToken' . $i,
             ]);
         }
 
