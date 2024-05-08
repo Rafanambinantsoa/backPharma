@@ -16,6 +16,7 @@ class evenement extends Model
         'heure',
         'lieu',
         'user_id',
+        'status'
     ];
 
     public function users()

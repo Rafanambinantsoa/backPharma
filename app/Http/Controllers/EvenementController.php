@@ -10,12 +10,15 @@ use Illuminate\Support\Facades\Validator;
 class EvenementController extends Controller
 {
     //Clore un evenement
-    public function cloreEvent(evenement $event)
+    public function cloreEvent()
     {
-        $event->update([
-            'status' => 0
-        ]);
-        return response()->json($event);
+        //Mettre a jour le status des event qui sont depasse par le temps
+        evenement::where('date', '<', now())->update(['status' => 1]);
+        return response()->json(
+            [
+                'message' => 'Evenement cloturer'
+            ]
+        );
     }
 
     //Nombre d'evenement total pour chaque Organisateurs
@@ -159,7 +162,7 @@ class EvenementController extends Controller
     //Creation d'events
     public function add(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'titre' => 'required',
             'description' => 'required',
             'date' => 'required',
@@ -178,7 +181,7 @@ class EvenementController extends Controller
                 'description' => $request->description,
                 'date' => $request->date,
                 'heure' => $request->heure,
-                'lieu' => $request->lieu , 
+                'lieu' => $request->lieu,
                 'user_id' => $request->user_id,
             ]);
             if (!$data) {

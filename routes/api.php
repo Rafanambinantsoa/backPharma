@@ -7,6 +7,7 @@ use App\Http\Controllers\EssaieCOntroller;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\FlutterController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\PointController;
 use App\Http\Controllers\UserController;
 use App\Models\Commande;
 use Illuminate\Http\Request;
@@ -71,7 +72,7 @@ Route::get('/eventOverCount/{id}', [EvenementController::class , 'countTerminer'
 Route::get('/eventEncoursCount/{id}', [EvenementController::class , 'countCours'])->middleware('auth:sanctum');
 Route::get('/allEventUser/{id}', [EvenementController::class , 'allEventbyUser'])->middleware('auth:sanctum');
 Route::get('/allEventUserPaginated/{id}', [EvenementController::class , 'allEventbyUserPaginated'])->middleware('auth:sanctum');
-Route::put('/cloreEvent/{event}', [EvenementController::class , 'cloreEvent'])->middleware('auth:sanctum');
+Route::put('/cloreEvent', [EvenementController::class , 'cloreEvent']);
 Route::get('/nombreTousEvent', [EvenementController::class , 'countAllEvent'])->middleware('auth:sanctum');
 Route::get('/nombreEventEnCours', [EvenementController::class , 'countAllEventValide'])->middleware('auth:sanctum');
 Route::get('/marie', [EvenementController::class , 'encours'])->middleware('auth:sanctum');
@@ -124,4 +125,11 @@ Route::get('/event/listPresence/{event_id}/first' , [InvitationController::class
 Route::get('/event/listAbsence/{event_id}' , [InvitationController::class , 'getListAbsence']);
 Route::get('/searchevent' , [InvitationController::class , 'getAllEvent']);
 Route::get('/sendQr' , [InvitationController::class , 'sendQrAllUser']);    
-Route::get('/sendQrsingle/{user}' , [InvitationController::class , 'sendQrToUser']);    
+Route::get('/sendQrsingle/{user}' , [InvitationController::class , 'sendQrToUser']); 
+
+
+//Point related route
+Route::post('/addPoint/{user}', [PointController::class , 'addPoint']);
+Route::get('/user/point/{user}' , [PointController::class , 'showUserPoint']);
+Route::post('/users/actualistionPoint' , [PointController::class , 'actualisationPoint']);
+Route::get('/user/sumpoint/{user}' , [PointController::class , 'sommePoint']);
