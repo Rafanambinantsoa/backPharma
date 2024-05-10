@@ -7,6 +7,7 @@ use App\Http\Resources\ParticipantRes;
 use App\Http\Resources\PresentCollection;
 use App\Models\evenement;
 use App\Models\Presence;
+use App\Models\Reservation;
 use App\Models\User;
 use Dompdf\Dompdf;
 use Exception;
@@ -62,6 +63,14 @@ class InvitationController extends Controller
     //une methode pour la  premiere presence 
     public function firstPresence($event_id, $user_id)
     {
+        //verification si l'utilisateur a reserver sa place
+        if(!Reservation::where('user_id', $user_id)->where('event_id', $event_id)->exists()){
+            return response()->json([
+                'message' => "Vous n'avez pas réservé votre place pour cet événement"
+            ], 400);
+        }
+
+
         if (Presence::where('user_id', $user_id)->where('evenement_id', $event_id)->exists()) {
             return response()->json([
                 'message' => 'Première présence déjà enregistrée'
@@ -88,6 +97,12 @@ class InvitationController extends Controller
             return response()->json([
                 'message' => 'Première présence non enregistrée'
             ], 404);
+        }
+
+        if ($presence->secondPresence) {
+            return response()->json([
+                'message' => 'Deuxième présence déjà enregistrée'
+            ], 400);
         }
 
         $presence->update([
