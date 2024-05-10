@@ -238,6 +238,7 @@ class UserController extends Controller
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
                 'email' => $user->email,
+                'phone' => $user->phone,
                 'points_total' => $user->points->sum('point'),
             ];
         });

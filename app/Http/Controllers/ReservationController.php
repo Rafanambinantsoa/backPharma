@@ -11,14 +11,38 @@ use Illuminate\Support\Facades\Validator;
 
 class ReservationController extends Controller
 {
-    //Liste des reservations par evenement
+    // Liste des réservations par événement avec pagination
     public function getListReservation($event_id)
     {
-        $reservations = Reservation::where("event_id", $event_id)->with("users", "event")->get();
-        if (!$reservations) return response(["message" => "Aucune reservation pour cet evenement"]);
+        // Récupérer les réservations pour l'événement spécifié avec les utilisateurs associés
+        $reservations = Reservation::with("users")->where("event_id", $event_id)->paginate(5);
 
-        return response(ListReservationRess::collection($reservations));
+        $formattedResponse = [
+            'data' => $reservations->map(function ($presence) {
+                // Extraire uniquement les informations nécessaires de l'utilisateur
+                $user = $presence->users;
+                return [
+                    'firstname' => $user->firstname,
+                    'lastname' => $user->lastname,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                ];
+            }),
+            // Ajouter les informations de pagination
+            'pagination' => [
+                'current_page' => $reservations->currentPage(),
+                'from' => $reservations->firstItem(),
+                'to' => $reservations->lastItem(),
+                'per_page' => $reservations->perPage(),
+                'total' => $reservations->total(),
+                'prev_page_url' => $reservations->previousPageUrl(),
+                'next_page_url' => $reservations->nextPageUrl(),
+            ],
+        ];
+
+        return response()->json($formattedResponse);
     }
+
 
 
     //Ajout d'une reservation a un evenement
@@ -33,11 +57,11 @@ class ReservationController extends Controller
         }
         $user_id = User::where("email",  $request->email)->first();
         if (!$user_id) {
-            return response(["message" => "Cet utilisateur n'existe pas " , "status" => "error"]);
+            return response(["message" => "Cet utilisateur n'existe pas ", "status" => "error"]);
         }
 
         if (Reservation::where("event_id", $event_id)->where("user_id", $user_id->id)->first()) {
-            return response(["message" => "Vous avez deja fait une reservation pour cet evenement" , "status" => "warning"]);
+            return response(["message" => "Vous avez deja fait une reservation pour cet evenement", "status" => "warning"]);
         }
 
         try {
@@ -46,7 +70,7 @@ class ReservationController extends Controller
                 "user_id" => $user_id->id
             ]);
             return response()->json([
-                "message" => "Reservation fait avec succes" ,
+                "message" => "Reservation fait avec succes",
                 "status" => "success"
             ]);
         } catch (Exception $err) {
