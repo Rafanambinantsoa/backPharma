@@ -23,4 +23,8 @@ class evenement extends Model
     {
         return $this->belongsToMany(User::class, 'presences', 'evenement_id', 'user_id');
     }
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

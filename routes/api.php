@@ -8,6 +8,7 @@ use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\FlutterController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use App\Models\Commande;
 use Illuminate\Http\Request;
@@ -133,3 +134,8 @@ Route::post('/addPoint/{user}', [PointController::class , 'addPoint']);
 Route::get('/user/point/{user}' , [PointController::class , 'showUserPoint']);
 Route::post('/users/actualistionPoint' , [PointController::class , 'actualisationPoint']);
 Route::get('/user/sumpoint/{user}' , [PointController::class , 'sommePoint']);
+
+
+//Reservation related route 
+Route::post('/reservation/add/{event_id}', [ReservationController::class , 'addReservation']);
+Route::get('/reservation/list/{event_id}', [ReservationController::class , 'getListReservation']);
