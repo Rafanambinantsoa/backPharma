@@ -150,9 +150,11 @@
                                     <tbody>
                                         <tr>
                                             <td style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; border-radius: 4px; text-align: center; background-color: #074173;"
-                                                valign="top" align="center" bgcolor="#0867ec"> <a href="https://karimrafanambinantsoa.vercel.app/"
-                                                    href="http://htmlemail.io" target="_blank"
-                                                    style="border: solid 2px #074173; border-radius: 4px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 16px; font-weight: bold; margin: 0; padding: 12px 24px; text-decoration: none; text-transform: capitalize; background-color: #074173; border-color: #074173; color: #ffffff;"> Reserver ma place </a> </td>
+                                                valign="top" align="center" bgcolor="#0867ec"> <a
+                                                    href="http://localhost:3000/res?code={{ $evenement->id }}"
+                                                    target="_blank"
+                                                    style="border: solid 2px #074173; border-radius: 4px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 16px; font-weight: bold; margin: 0; padding: 12px 24px; text-decoration: none; text-transform: capitalize; background-color: #074173; border-color: #074173; color: #ffffff;">
+                                                    Reserver ma place </a> </td>
                                         </tr>
                                     </tbody>
                                 </table>

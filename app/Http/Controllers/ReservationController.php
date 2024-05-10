@@ -33,7 +33,11 @@ class ReservationController extends Controller
         }
         $user_id = User::where("email",  $request->email)->first();
         if (!$user_id) {
-            return response(["message" => "Cet utilisateur n'existe pas "]);
+            return response(["message" => "Cet utilisateur n'existe pas " , "status" => "error"]);
+        }
+
+        if (Reservation::where("event_id", $event_id)->where("user_id", $user_id->id)->first()) {
+            return response(["message" => "Vous avez deja fait une reservation pour cet evenement" , "status" => "warning"]);
         }
 
         try {
@@ -41,7 +45,10 @@ class ReservationController extends Controller
                 "event_id" => $event_id,
                 "user_id" => $user_id->id
             ]);
-            return response(["message" => "Reservation fait avec succes"]);
+            return response()->json([
+                "message" => "Reservation fait avec succes" ,
+                "status" => "success"
+            ]);
         } catch (Exception $err) {
             return response(["Erreur" => $err]);
         }
