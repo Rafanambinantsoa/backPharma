@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/registration', [UserController::class , 'registration']);
 Route::post('/login', [UserController::class , 'login'])->name("login");
 
-Route::get('/user/all', [UserController::class , 'allUsers'])->middleware('auth:sanctum');
+Route::get('/user/all', [UserController::class , 'allUsers']);
 Route::get('/client/count', [UserController::class , 'countAllClient'])->middleware('auth:sanctum');
 
 Route::get('/userNon', [UserController::class , 'userNonValide'])->middleware('auth:sanctum');

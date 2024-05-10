@@ -191,7 +191,7 @@ class UserController extends Controller
             ]);
         }
         //generate a token
-        $randomString = bin2hex(random_bytes(16)).time();
+        $randomString = bin2hex(random_bytes(16)) . time();
 
         // Create a new user  
         $user = User::create([
@@ -226,12 +226,41 @@ class UserController extends Controller
         ]);
     }
 
-    //Affficher
     public function allUsers()
     {
+        // Récupérer tous les utilisateurs qui ne sont pas des admins avec pagination
         $users = User::whereNotIn('role', ['admin'])->paginate(5);
-        return response()->json($users);
+
+        // Transformer les données des utilisateurs pour inclure le total des points
+        $usersData = $users->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'firstname' => $user->firstname,
+                'lastname' => $user->lastname,
+                'email' => $user->email,
+                'points_total' => $user->points->sum('point'),
+            ];
+        });
+
+        // Créer un tableau de résultats comprenant les données des utilisateurs et les détails de la pagination
+        $responseData = [
+            'current_page' => $users->currentPage(),
+            'data' => $usersData,
+            'first_page_url' => $users->url(1),
+            'from' => $users->firstItem(),
+            'last_page' => $users->lastPage(),
+            'last_page_url' => $users->url($users->lastPage()),
+            'next_page_url' => $users->nextPageUrl(),
+            'path' => $users->url($users->currentPage()),
+            'per_page' => $users->perPage(),
+            'prev_page_url' => $users->previousPageUrl(),
+            'to' => $users->lastItem(),
+            'total' => $users->total(),
+        ];
+
+        return response()->json($responseData);
     }
+
 
     //Tous les comptes clients 
     public function allClient()
