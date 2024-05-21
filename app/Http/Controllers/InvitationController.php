@@ -33,7 +33,7 @@ class InvitationController extends Controller
 
         foreach ($users as $user) {
             try {
-                Mail::send('mails.invitation', ['evenement' => $event, 'username' => $user->firstname], function ($message) use ($user) {
+                Mail::send('mails.invitationv2', ['evenement' => $event, 'user' => $user], function ($message) use ($user) {
                     $message->to($user->email);
                     $message->subject('Nouvel événement');
                 });

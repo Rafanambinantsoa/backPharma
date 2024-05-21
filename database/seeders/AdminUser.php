@@ -36,15 +36,15 @@ class AdminUser extends Seeder
             'badgeToken' => 'organisateur',
         ]);
 
-        // User::create([
-        //     'firstname' => 'CLient',
-        //     'lastname' => 'CLient',
-        //     'email' => 'tsukasashishiosama@gmail.com',
-        //     'phone' => '123456789',
-        //     'password' => Hash::make('karimkarim'),
-        //     'role' => '0',
-        //     'badgeToken' => 'client'
-        // ]);
+        User::create([
+            'firstname' => 'CLient',
+            'lastname' => 'CLient',
+            'email' => 'tsukasashishiosama@gmail.com',
+            'phone' => '123456789',
+            'password' => Hash::make('karimkarim'),
+            'role' => '0',
+            'badgeToken' => 'client'
+        ]);
 
         //Evenement with faker  
         for ($i = 0; $i < 10; $i++) {

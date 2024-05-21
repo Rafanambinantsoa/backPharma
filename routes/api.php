@@ -7,6 +7,7 @@ use App\Http\Controllers\EssaieCOntroller;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\FlutterController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\MobileController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
@@ -89,17 +90,12 @@ Route::get('/merde', [UserController::class , 'tousLesUser']);
 //Related route to commande
 Route::post('/commande', [CommandeController::class , 'index'])->middleware('auth:sanctum');
 Route::get('/commande/montantTotal', [CommandeController::class , 'totalCommande'])->middleware('auth:sanctum');
-Route::get('/pdf', [EssaieCOntroller::class , 'index']);
 Route::get('/historique/{user}', [CommandeController::class , 'historiqueParUser'])->middleware('auth:sanctum');
 Route::get('/revenusParOrgan/{user}', [CommandeController::class , 'revenusParOrganisateur'])->middleware('auth:sanctum');
 Route::get('/annulerCommandeParUser/{user}', [CommandeController::class , 'annulerCommandeParUser'])->middleware('auth:sanctum');
 
 
 //Related route for ticket
-Route::get('/ticket/{event}', [BilletController::class , 'ticketParEvent']);
-Route::post('/scanMe/{token}', [BilletController::class , 'scannerUnBillet']);
-Route::get('/ticketInfo/{token}', [BilletController::class , 'showInformation']);
-Route::get('/ticketAvecAcheteur/{event}', [BilletController::class , 'ticketParEventAvecAcheteur']);
 
 //Related route for email real
 
@@ -139,3 +135,7 @@ Route::get('/user/sumpoint/{user}' , [PointController::class , 'sommePoint']);
 //Reservation related route 
 Route::post('/reservation/add/{event_id}', [ReservationController::class , 'addReservation']);
 Route::get('/reservation/list/{event_id}', [ReservationController::class , 'getListReservation']);
+
+//Related route for Mobile
+Route::post('/mobile/login', [MobileController::class , 'login']);
+Route::get('/mobile/events', [MobileController::class , 'getEventsEncours']);
