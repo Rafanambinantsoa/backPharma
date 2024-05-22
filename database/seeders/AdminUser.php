@@ -51,15 +51,12 @@ class AdminUser extends Seeder
             evenement::create([
                 'titre' => 'Evenement ' . $i,
                 'description' => 'Description ' . $i,
-                'date' => '2021-12-12',
+                'date' => //ransom date between 2021-01-01 and 2021-12-31
+                date('Y-m-d', mt_rand(strtotime('2024-01-01'), strtotime('2024-12-31'))),
                 'heure' => '12:00',
                 'lieu' => 'Lieu ' . $i,
                 'user_id' => 2,
             ]);
         }
-
-
-    
-        
     }
 }
