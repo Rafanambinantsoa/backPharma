@@ -135,6 +135,8 @@ Route::get('/user/sumpoint/{user}' , [PointController::class , 'sommePoint']);
 //Reservation related route 
 Route::post('/reservation/add/{event_id}', [ReservationController::class , 'addReservation']);
 Route::get('/reservation/list/{event_id}', [ReservationController::class , 'getListReservation']);
+Route::get('/reservation/user/{user}', [ReservationController::class , 'reservationPerUser']);
+// ->middleware('auth:sanctum');
 
 //Related route for Mobile
 Route::post('/mobile/login', [MobileController::class , 'login']);

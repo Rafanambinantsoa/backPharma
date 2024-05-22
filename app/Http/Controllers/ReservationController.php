@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ListReservationPerUser;
 use App\Http\Resources\ListReservationRess;
 use App\Models\Reservation;
 use App\Models\User;
@@ -11,6 +12,15 @@ use Illuminate\Support\Facades\Validator;
 
 class ReservationController extends Controller
 {
+    //la listes de tous les reservations fait par un user 
+    public function reservationPerUser(User $user)
+    {
+        $data = Reservation::with("event")->where("user_id" , $user->id)->get();
+        $truedata = ListReservationPerUser::collection($data);
+
+        return response($truedata);
+    }
+
     // Liste des réservations par événement avec pagination
     public function getListReservation($event_id)
     {
