@@ -169,16 +169,18 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:50',
             'lastname' => 'required|string|max:50',
+            'password' => 'required',
             'email' => 'required|email',
             'phone' => 'required|max:10',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'email.email' => 'ataovy email le izy '
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'notif' => 'Veuillez remplir tous les champs',
-                'message' => 'warning'
+                'message' => 'Veuillez vérifier les champs',
+                // 'errors' => $validator->errors()
             ]);
         }
 
@@ -186,13 +188,15 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->first();
         if ($user) {
             return response()->json([
-                'notif' => 'L\'adresse e-mail existe déjà.',
-                'message' => 'warning'
+                'message' => 'L\'adresse e-mail existe déjà.',
             ]);
         }
         //generate a token
         $randomString = bin2hex(random_bytes(16)) . time();
 
+        //handle image to public folder
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
         // Create a new user  
         $user = User::create([
             'firstname' => $request->firstname,
@@ -200,12 +204,13 @@ class UserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'badgeToken' => $randomString,
+            'password' => $request->password , 
+            'image' => $imageName,
         ]);
 
         //response 
         return response()->json([
-            'notif' => 'Compte créé avec succès',
-            'message' => 'success'
+            'message' => 'success',
         ]);
     }
 

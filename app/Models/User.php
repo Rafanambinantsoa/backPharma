@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'role',
         'badgeToken',
+        'image',
         'password_reset_token',
     ];
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('role')->default('0');
             $table->string('badgeToken');
+            $table->string('image')->nullable();
             $table->string('password_reset_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
