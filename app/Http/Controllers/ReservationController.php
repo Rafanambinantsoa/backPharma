@@ -20,8 +20,18 @@ class ReservationController extends Controller
         if (!$reservation) {
             return response(["message" => "Vous n'avez pas fait de reservation pour cet evenement", "status" => "warning"]);
         }
+
+        //contrainte genre on ne peut plus annuler 2 jours avant l'evenement
+        $event = evenement::find($event_id);
+        $date = date("Y-m-d");
+        $date_event = $event->date;
+        $diff = strtotime($date_event) - strtotime($date);
+        $diff = $diff / (60 * 60 * 24);
+        if ($diff <= 2) {
+            return response(["message" => "Vous ne pouvez plus annuler cette reservation", "status" => "warning"]);
+        }
         $reservation->delete();
-        return response(["message" => "Reservation annulée avec succes", "status" => "success"]);
+        return response(["message" => "success", "status" => "success"]);
     }
 
     //la listes de tous les reservations fait par un user 

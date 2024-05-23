@@ -142,4 +142,4 @@ Route::get('/reservation/user/{user}', [ReservationController::class, 'reservati
 Route::post('/mobile/login', [MobileController::class, 'login']);
 Route::post('/mobile/user/update/{user}', [UserController::class, 'mettreAjour'])->middleware('auth:sanctum');
 Route::get('/mobile/events', [MobileController::class, 'getEventsEncours']);
-Route::delete('/mobile/events/{event_id}/annuler/{user_id}', [ReservationController::class, 'cancelReservation']);
+Route::delete('/mobile/events/{event_id}/annuler/{user_id}', [ReservationController::class, 'cancelReservation'])->middleware('auth:sanctum');

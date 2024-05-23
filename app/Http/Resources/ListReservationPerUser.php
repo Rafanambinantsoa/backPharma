@@ -17,6 +17,7 @@ class ListReservationPerUser extends JsonResource
         return [
             "eventTilte" => $this->event->titre, 
             "eventDate" => $this->event->date, 
+            "eventId" => $this->event->id, 
         ];
     }
 }
