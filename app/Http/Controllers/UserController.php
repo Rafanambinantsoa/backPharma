@@ -11,6 +11,50 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
+    //Update user profile fluuter 
+    public function mettreAjour(Request $request, User $user)
+    {
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Veuillez vérifier les champs',
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        //if there is an image
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $user->update([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'image' => $imageName,
+            ]);
+        } else {
+            $user->update([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'email' => $request->email,
+                'phone' => $request->phone,
+            ]);
+        }
+        $user->save();
+        return response()->json([
+            'message' => 'success',
+        ]);
+    }
+
     //allUser
     public function tousLesUser()
     {
@@ -180,7 +224,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Veuillez vérifier les champs',
-                // 'errors' => $validator->errors()
+                'errors' => $validator->errors()
             ]);
         }
 
@@ -204,7 +248,7 @@ class UserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'badgeToken' => $randomString,
-            'password' => $request->password , 
+            'password' => $request->password,
             'image' => $imageName,
         ]);
 

@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\Validator;
 
 class ReservationController extends Controller
 {
+    //Annuler une reservation
+    public function cancelReservation($event_id, $user_id)
+    {
+        $reservation = Reservation::where("event_id", $event_id)->where("user_id", $user_id)->first();
+        if (!$reservation) {
+            return response(["message" => "Vous n'avez pas fait de reservation pour cet evenement", "status" => "warning"]);
+        }
+        $reservation->delete();
+        return response(["message" => "Reservation annulée avec succes", "status" => "success"]);
+    }
+
     //la listes de tous les reservations fait par un user 
     public function reservationPerUser(User $user)
     {
