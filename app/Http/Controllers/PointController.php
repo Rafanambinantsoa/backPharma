@@ -18,7 +18,9 @@ class PointController extends Controller
         foreach ($points as $point) {
             $somme += $point->point;
         }
-        return response()->json($somme);
+        return response()->json([
+        "points" => $somme
+        ]);
     }
     public function actualisationPoint()
     {
